@@ -1,0 +1,22 @@
+# Define the function to drop a database
+function drop_database() {
+    echo "Enter the name of the database to drop:"
+    read db_name
+    db_dir="$ROOT_DIR/$db_name"
+    if [ ! -d "$db_dir" ]; then
+        echo "Database not found: $db_name"
+        read -p "Do you want to create a database with this name? (y/n)" choice
+        if [ "$choice" == "y" ]; then
+            create_database "$db_name"
+        fi
+        return
+    fi
+    echo "Are you sure you want to delete the database $db_name? (y/n)"
+    read confirmation
+    if [ "$confirmation" == "y" ]; then
+        rm -rf "$db_dir"
+        echo "Database dropped: $db_name"
+    else
+        echo "Operation cancelled"
+    fi
+}
